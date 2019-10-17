@@ -221,6 +221,11 @@ func (c *CNPStatusEventHandler) StartController(cnp *types.SlimCNP) {
 				}
 			}
 
+			// Allow for a bunch of different node status updates to come before
+			// we break out to avoid jitter in updates across the cluster
+			// to affect batching on our end.
+			limit := time.After(time.Millisecond * 100)
+
 		Loop:
 			for {
 				select {
@@ -231,8 +236,7 @@ func (c *CNPStatusEventHandler) StartController(cnp *types.SlimCNP) {
 					if ok {
 						nodeStatusMap[ev.node] = *ev.CiliumNetworkPolicyNodeStatus
 					}
-				default:
-					// Nothing to do, update K8s apiserver with status updates.
+				case <-limit:
 					break Loop
 				}
 			}
