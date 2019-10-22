@@ -2,15 +2,10 @@
 
 |cii| |build-status| |pulls| |slack| |go-report| |go-doc| |rtd| |apache| |gpl|
 
-Cilium is open source software for providing and transparently securing network
-connectivity and loadbalancing between application workloads such as
-application containers or processes. Cilium operates at Layer 3/4 to provide
-traditional networking and security services as well as Layer 7 to protect and
-secure use of modern application protocols such as HTTP, gRPC and Kafka. Cilium
-is integrated into common orchestration frameworks such as Kubernetes and Mesos.
+Cilium is open source software for providing and transparently securing network connectivity and load balancing between application workloads, such as application containers or processes. Cilium operates at Layers 3 & 4 (OSI) to offer traditional networking and security services as well as operating Layer 7 to protect and secure the use of modern application protocols such as HTTP, gRPC and Kafka. Cilium is integrated into common orchestration frameworks such as: Kubernetes and Mesos.
 
-A new Linux kernel technology called BPF is at the foundation of Cilium. It
-supports dynamic insertion of BPF bytecode into the Linux kernel at various
+A new up and coming Linux kernel technology known as BPF is at the core foundation of Cilium. It
+supports and allows the dynamic insertion of BPF bytecode into the Linux kernel at various
 integration points such as: network IO, application sockets, and tracepoints to
 implement security, networking and visibility logic. BPF is highly efficient
 and flexible. To learn more about BPF, read more in our extensive
@@ -45,16 +40,16 @@ Protect and secure APIs transparently
 -------------------------------------
 
 Ability to secure modern application protocols such as REST/HTTP, gRPC and
-Kafka. Traditional firewalls operates at Layer 3 and 4. A protocol running on a
+Kafka. Traditional firewalls operate at Layer 3 and 4. A protocol running on a
 particular port is either completely trusted or blocked entirely. Cilium
 provides the ability to filter on individual application protocol requests such
 as:
 
-- Allow all HTTP requests with method ``GET`` and path ``/public/.*``. Deny all
+- Allowing all HTTP requests with method ``GET`` and path ``/public/.*``. Deny all
   other requests.
-- Allow ``service1`` to produce on Kafka topic ``topic1`` and ``service2`` to
+- Allowing ``service1`` to produce on Kafka topic ``topic1`` and ``service2`` to
   consume on ``topic1``. Reject all other Kafka messages.
-- Require the HTTP header ``X-Token: [0-9]+`` to be present in all REST calls.
+- Requiring the HTTP header ``X-Token: [0-9]+`` to be present in all REST calls.
 
 See the section `Layer 7 Policy`_ in our documentation for the latest list of
 supported protocols and examples on how to use it.
@@ -62,9 +57,9 @@ supported protocols and examples on how to use it.
 Secure service to service communication based on identities
 -----------------------------------------------------------
 
-Modern distributed applications rely on technologies such as application
-containers to facilitate agility in deployment and scale out on demand. This
-results in a large number of application containers to be started in a short
+Modern distributed applications rely on technologies, such as application
+containers to facilitate agility witin deployment and able to scale out on demand. This
+results in a large number of application containers which will be started in a short
 period of time. Typical container firewalls secure workloads by filtering on
 source IP addresses and destination ports. This concept requires the firewalls
 on all servers to be manipulated whenever a container is started anywhere in
@@ -73,29 +68,28 @@ the cluster.
 In order to avoid this situation which limits scale, Cilium assigns a security
 identity to groups of application containers which share identical security
 policies. The identity is then associated with all network packets emitted by
-the application containers, allowing to validate the identity at the receiving
+the application containers, allowing validation of the identity at the receiving
 node. Security identity management is performed using a key-value store.
 
 Secure access to and from external services
 -------------------------------------------
 
 Label based security is the tool of choice for cluster internal access control.
-In order to secure access to and from external services, traditional CIDR based
-security policies for both ingress and egress are supported. This allows to
-limit access to and from application containers to particular IP ranges.
+In-order to secure access to and from external services, traditional CIDR-based
+security policies for both ingress and egress are supported. This allows access to and from application containers to particular IP ranges to be limited.
 
 Simple Networking
 -----------------
 
 A simple flat Layer 3 network with the ability to span multiple clusters
 connects all application containers. IP allocation is kept simple by using host
-scope allocators. This means that each host can allocate IPs without any
+scope allocators. This means that each host can faciliate the allocation of IPs without any
 coordination between hosts.
 
-The following multi node networking models are supported:
+The following multi-node networking models are supported:
 
 * **Overlay:** Encapsulation-based virtual network spanning all hosts.
-  Currently VXLAN and Geneve are baked in but all encapsulation formats
+  Currently VXLAN and Geneve are hard-coded but all encapsulation formats
   supported by Linux can be enabled.
 
   When to use this mode: This mode has minimal infrastructure and integration
@@ -118,12 +112,13 @@ The following multi node networking models are supported:
 Load balancing
 --------------
 
-Distributed load balancing for traffic between application containers and to
-external services. The loadbalancing is implemented using BPF using efficient
-hashtables allowing for almost unlimited scale and supports direct server
-return (DSR) if the loadbalancing operation is not performed on the source
+Distributed load-balancing for traffic between application containers and to
+external services. The load-balancing is implemented using BPF using efficient
+hashtables allowing for almost unlimited scale and direct server
+return (DSR) is supported if the load-balancing operation is not performed on the source
 host.
-*Note: load balancing requires connection tracking to be enabled. This is the
+
+*Note: Load-balancing requires connection tracking to be enabled. This is the
 default.*
 
 Monitoring and Troubleshooting
@@ -133,14 +128,13 @@ The ability to gain visibility and to troubleshoot issues is fundamental to the
 operation of any distributed system. While we learned to love tools like
 ``tcpdump`` and ``ping`` and while they will always find a special place in our
 hearts, we strive to provide better tooling for troubleshooting. This includes
-tooling to provide:
+tooling that shall provide:
 
 - Event monitoring with metadata: When a packet is dropped, the tool doesn't
   just report the source and destination IP of the packet, the tool provides
-  the full label information of both the sender and receiver among a lot of
-  other information.
+  the full label information of both the sender and receiver among a plethora of other useful information.
 
-- Policy decision tracing: Why is a packet being dropped or a request rejected.
+- Policy decision tracing: The tool shall show the reason why a packet being dropped or a request rejected.
   The policy tracing framework allows to trace the policy decision process for
   both, running workloads and based on arbitrary label definitions.
 
@@ -181,9 +175,9 @@ What is eBPF and XDP?
 Berkeley Packet Filter (BPF) is a Linux kernel bytecode interpreter originally
 introduced to filter network packets, e.g. for tcpdump and socket filters. The
 BPF instruction set and surrounding architecture has recently been
-significantly reworked with additional data structures such as hash tables and
+significantly reworked with additional data structures, such as hash tables and
 arrays for keeping state as well as additional actions to support packet
-mangling, forwarding, encapsulation, etc. Furthermore, a compiler back end for
+mangling, forwarding, encapsulation, etc. Furthermore, a compiler back-end for
 LLVM allows for programs to be written in C and compiled into BPF instructions.
 An in-kernel verifier ensures that BPF programs are safe to run and a JIT
 compiler converts the BPF bytecode to CPU architecture specific instructions
